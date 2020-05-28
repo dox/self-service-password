@@ -138,15 +138,15 @@ $mailer->LE            = $mail_newline;
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
-	<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+	<meta name="author" content="Andrew Breakspear, St Edmund Hall University of Oxford">
 	<meta name="generator" content="Jekyll v3.8.6">
-	<title>Signin Template · Bootstrap</title>
-	
+	<title>SEH Self-Service Password Reset</title>
+
 	<link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/sign-in/">
-	
+
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	
+
 	<!-- Favicons
 <link rel="apple-touch-icon" href="/docs/4.4/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/docs/4.4/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
@@ -157,7 +157,7 @@ $mailer->LE            = $mail_newline;
 <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
 <meta name="theme-color" content="#563d7c">
 	-->
-	
+
 	<style>
 		.bd-placeholder-img {
 			font-size: 1.125rem;
@@ -167,14 +167,14 @@ $mailer->LE            = $mail_newline;
 			-ms-user-select: none;
 			user-select: none;
 		}
-		
+
 		@media (min-width: 768px) {
 			.bd-placeholder-img-lg {
 				font-size: 3.5rem;
 			}
 		}
 	</style>
-	
+
 	<!-- Custom styles for this template -->
 	<link href="css/signin.css" rel="stylesheet">
 </head>
@@ -185,18 +185,17 @@ $mailer->LE            = $mail_newline;
 	<form class="form-signin" action="#" method="post">
 		<img class="mb-4" src="images/logo.png" alt="" width="72" height="72">
 		<?php
-		
+
 		if (isset($_GET['action'])) {
 			$node = "nodes/" . $_GET['action'] . ".php";
 		} else {
 			$node = "nodes/sendtoken.php";
 		}
-		
+
 		include_once($node);
 		?>
-		
-		<p class="mt-5 mb-3 text-muted">&copy; 2020 www.seh.ox.ac.uk</p>
+
+		<p class="mt-5 mb-3 text-muted">&copy; <?php echo date('Y');?> www.seh.ox.ac.uk</p>
 	</form>
 </body>
 </html>
-

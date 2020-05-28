@@ -176,12 +176,18 @@ if ( in_array($result, $obscure_failure_messages) ) { $result = "Username or pas
 <?php
 if ($result == "passwordchanged") {
 	$output  = "<div class=\"result alert alert-success\">";
-	$output .= "<p><i class=\"fa fa-fw\" aria-hidden=\"true\"></i> You have reset your SEH password</a></p>";
+	$output .= "<p>You have reset your SEH password</p>";
 	$output .= "</div>";
-} elseif ($result != "Change your password") {
-	$output  = "";
+} elseif ($result == "Username or password incorrect") {
+	$output  = "<div class=\"result alert alert-warning\">";
+	$output .= "<p>Username or password incorrect</p>";
+	$output .= "</div>";
+} elseif ($result == "badcaptcha") {
+	$output  = "<div class=\"result alert alert-warning\">";
+	$output .= "<p>Captcha not correct</p>";
+	$output .= "</div>";
 } else {
-	$output = "";
+	$output = $result;
 }
 
 echo $output;
@@ -196,23 +202,26 @@ echo $output;
 <small id="inputPasswordCurrent" class="form-text text-muted">If you don't know your current password, you can <a href="index.php?action=sendtoken">request a reset link here</a></small><br />
 
 	<label for="login" class="sr-only">Username</label>
-	<input type="text" id="login" name="login" class="form-control" placeholder="Username" value="<?php echo htmlentities($login) ?>" required autofocus autocomplete="off">
-	
+	<input type="text" id="login" name="login" class="form-control cssGroupTop" placeholder="Username" value="<?php echo htmlentities($login) ?>" required autofocus autocomplete="off">
+
 	<label for="oldpassword" class="sr-only">Old Password</label>
-	<input type="password" id="oldpassword" name="oldpassword" class="form-control" placeholder="Old Password" required>
-	
+	<input type="password" id="oldpassword" name="oldpassword" class="form-control cssGroupBottom" placeholder="Old Password" required>
+
+	<br />
+
 	<label for="newpassword" class="sr-only">New Password</label>
-	<input type="password" id="newpassword" name="newpassword" class="form-control" placeholder="New Password" required>
-	
+	<input type="password" id="newpassword" name="newpassword" class="form-control cssGroupTop" placeholder="New Password" required>
+
 	<label for="confirmpassword" class="sr-only">New Password (Confirm)</label>
-	<input type="password" id="confirmpassword" name="confirmpassword" class="form-control" placeholder="New Password (Confirm)" required>
-	
+	<input type="password" id="confirmpassword" name="confirmpassword" class="form-control cssGroupBottom" placeholder="New Password (Confirm)" required>
+
 	<div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_publickey; ?>" data-theme="<?php echo $recaptcha_theme; ?>" data-type="<?php echo $recaptcha_type; ?>" data-size="<?php echo $recaptcha_size; ?>"></div>
 	<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $lang; ?>"></script>
-	
-	<button type="submit" class="btn btn-success"><i class="fa fa-fw fa-check-square-o"></i> <?php echo $messages['submit']; ?></button>
+
+	<br />
+
 	<button class="btn btn-lg btn-primary btn-block" type="submit">Reset Password</button>
-	
+
 	<?php
 if ($pwd_show_policy_pos === 'below') {
     show_policy($messages, $pwd_policy_config, $result);
@@ -222,9 +231,10 @@ if ($pwd_show_policy_pos === 'below') {
 <?php } else {
 
     # Notify password change
+    //send_mail($mailer, "andrew.breakspear@seh.ox.ac.uk", $mail_from, $mail_from_name, "Self Service password system used", $login." changed their password", $data);
     if ($mail and $notify_on_change) {
         $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
-        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
+        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, "Password Reset Complete", "Your SEH password has been reset.  Please contact help@seh.ox.ac.uk immediately if this wasn't you.", $data) ) {
             error_log("Error while sending change email to $mail (user $login)");
         }
     }

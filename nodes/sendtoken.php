@@ -96,7 +96,7 @@ if ( $result === "" ) {
        $name = $nameValues[0];
        $match = true;
     }
-    
+
 }}}}}
 
 #==============================================================================
@@ -155,11 +155,11 @@ if ( $result === "" ) {
     }
 
     $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url, "name" => $name ) ;
-    
+
     $message = "Dear {name},\n\nPlease click on the link below to reset your SEH password:\n{url}\n\nIf you didn't request this password reset, please just ignore this email.";
-    
+
     # Send message
-    if ( send_mail($mailer, $mail, $mail_from, $mail_from_name, "Reset subject", $message, $data) ) {
+    if ( send_mail($mailer, $mail, $mail_from, $mail_from_name, "SEH Password Link", $message, $data) ) {
         $result = "tokensent";
     } else {
         $result = "Error when sending confirmation email";
@@ -180,10 +180,6 @@ if ($result == "tokensent") {
 	$output  = "<div class=\"result alert alert-success\">";
 	$output .= "<p><i class=\"fa fa-fw\" aria-hidden=\"true\"></i> Link sent.  Please check your <a href=\"https://www.office.com\">Oxford email</a></p>";
 	$output .= "</div>";
-} elseif ($result != "ready") {
-	$output  = "<div class=\"result alert alert-warning\">";
-	$output .= "<p><i class=\"fa fa-fw\" aria-hidden=\"true\"></i> " . $result . "</p>";
-	$output .= "</div>";
 } else {
 	$output = "";
 }
@@ -191,16 +187,18 @@ if ($result == "tokensent") {
 echo $output;
 
 if ( $result !== "tokensent" ) { ?>
-	
-	<small id="inputPasswordCurrent" class="form-text text-muted">Enter your user name to reset your password. An email will be sent to your Oxford email  address. When you receive this email, click the link inside to complete the password reset.</a></small><br />
-	
+
+	<small id="inputPasswordCurrent" class="form-text text-muted">Enter your username to reset your password. An email will be sent to your Oxford email  address. When you receive this email, click the link inside to complete the password reset.</a></small><br />
+
 	<small id="inputPasswordCurrent" class="form-text text-muted">If you already know your current password, you can <a href="index.php?action=change">reset it to something new here</a></small><br />
 	<label for="login" class="sr-only">Username</label>
 	<input type="text" id="login" name="login" class="form-control" placeholder="Username" value="<?php echo htmlentities($login) ?>" required autofocus autocomplete="off">
 	<br />
-	
+
 	<div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_publickey; ?>" data-theme="<?php echo $recaptcha_theme; ?>" data-type="<?php echo $recaptcha_type; ?>" data-size="<?php echo $recaptcha_size; ?>"></div>
 	<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $lang; ?>"></script>
+
+	<br />
 
 	<button class="btn btn-lg btn-primary btn-block" type="submit">Reset Password</button>
 
