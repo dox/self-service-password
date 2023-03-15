@@ -57,7 +57,7 @@ echo displayTitle("Reset your SEH Password");
 	</div>
 	<div class="mb-3">
 		<label for="password_old" class="form-label">Old Password</label>
-		<input type="password" class="form-control" id="username" name="password_old" placeholder="Old Password" required autocomplete="off">
+		<input type="password" class="form-control" id="password_old" name="password_old" placeholder="Old Password" required autocomplete="off">
 	</div>
 	<div class="mb-3">
 		<label for="password_new" class="form-label">New Password</label>

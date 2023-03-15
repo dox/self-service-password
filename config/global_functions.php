@@ -74,6 +74,19 @@ function tokenCreate($email = null, $token = null) {
 	return true;
 }
 
+function tokensGet($current = false) {
+	global $db;
+	
+	$sql = "SELECT * FROM tokens ";
+	if ($current == true) {
+		$sql .= "WHERE date_used IS NULL ";
+	}
+	$sql .= "ORDER BY date_created DESC";
+	$array = $db->query($sql)->fetchAll();
+	
+	return $array;
+}
+
 function tokenGet($token = null) {
 	global $db;
 	
@@ -121,5 +134,14 @@ function logCreate($type, $event) {
 	$db->query($sql);
 	
 	return true;
+}
+
+function logsGet() {
+	global $db;
+	
+	$sql = "SELECT * FROM logs ORDER BY date_created DESC LIMIT 200";
+	$array = $db->query($sql)->fetchAll();
+	
+	return $array;
 }
 ?>
