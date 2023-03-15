@@ -23,9 +23,7 @@ if (isset($_POST['email'])) {
 
 <?php } else { ?>
 
-<p><small id="inputPasswordCurrent" class="form-text text-muted">Enter your Oxford email address to request a reset link.</small></p>
-
-<!--<p><small id="inputPasswordCurrent" class="form-text text-muted ">If you already know your current password, you can <a class="hidden" href="index.php?node=change_password">reset it to something new here</a></small></p>-->
+<p><small id="inputPasswordCurrent" class="form-text text-muted ">If you already know your current password, you can <a class="hidden" href="index.php?node=reset_by_password">reset it to something new here</a></small></p>
 
 <form method="post" id="request_email" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 	<label for="login" class="visually-hidden">Oxford Email Address</label>

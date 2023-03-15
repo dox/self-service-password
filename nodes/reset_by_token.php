@@ -27,7 +27,8 @@ if (isset($_POST['reset_by_token'])) {
 		if ($user->isEnabled()) {
 			$user->save();
 			tokenUse($database_token['token']);
-			echo "Your password has been successfully updated";
+			echo "<div class=\"alert alert-success\" role=\"alert\">Your password has been successfully updated</div>";
+			
 			tokenRemoveOldUsed();
 		} else {
 			exit("The account you have attempted to reset is currently disabled.  Please contact the IT Office by emailing <a href=\"mailto:help@seh.ox.ac.uk\">help@seh.ox.ac.uk</a>");

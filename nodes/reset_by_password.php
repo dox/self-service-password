@@ -1,9 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-printArray($_POST);
+if (isset($_GET['username'])) {
+	$cleanUsername = htmlspecialchars($_GET['username']);
+}
 
 if (isset($_POST['username'])) {
 	$cleanUsername = htmlspecialchars($_POST['username']);
@@ -15,9 +13,15 @@ if (isset($_POST['username'])) {
 	$user->unicodepwd = [$cleanPasswordOld, $cleanPasswordNew];
 	
 	try {
-		//$user->save();
-		echo "DONE";
-	
+		if ($user->isEnabled()) {
+			$user->save();
+			logCreate("password_reset", $cleanUsername . " reset their password");
+			echo "<div class=\"alert alert-success\" role=\"alert\">Your password has been successfully updated</div>";
+		} else {
+			logCreate("password_reset", $cleanUsername . " failed to reset their password because their account was disabled");
+			
+			exit("The account you have attempted to reset is currently disabled.  Please contact the IT Office by emailing <a href=\"mailto:help@seh.ox.ac.uk\">help@seh.ox.ac.uk</a>");
+		}
 		// User password reset!
 	} catch (\LdapRecord\Exceptions\InsufficientAccessException $ex) {
 		// The currently bound LDAP user does not
@@ -29,30 +33,36 @@ if (isset($_POST['username'])) {
 		// Failed resetting password. Get the last LDAP
 		// error to determine the cause of failure.
 		$error = $ex->getDetailedError();
-	
-		echo $error->getErrorCode();
-		echo $error->getErrorMessage();
-		echo $error->getDiagnosticMessage();
+		
+		logCreate("password_reset", $cleanUsername . " failed to reset their password because they entered incorect credentials");
+		
+		echo "<p>Username or password incorrect</p>";
+		echo "<p><a href=\"index.php?node=reset_by_password&username=" . $cleanUsername . "\">Click here</a> to try again</p>";
+		
+		printArray("Error Code: " . $error->getErrorCode() . "<br />" . $error->getErrorMessage());
+		//printArray($error->getDiagnosticMessage());
 	}
-}
+} else {
 
-
-
+echo displayTitle("Reset your SEH Password");
 
 ?>
+
+<p><small id="inputPasswordCurrent" class="form-text text-muted ">If you don't know your current password, you can <a class="hidden" href="index.php?node=request_token">request a reset link here</a></small></p>
+
 <form action="#" method="post">
 	<div class="mb-3">
 		<label for="username" class="form-label">Username</label>
-		<input type="text" class="form-control" id="username" name="username" placeholder="Username" required autofocus autocomplete="off" aria-describedby="usernameHelp">
+		<input type="text" class="form-control" id="username" name="username" placeholder="Username" value="<?php echo $cleanUsername; ?>" required autofocus autocomplete="off" aria-describedby="usernameHelp">
 	</div>
 	<div class="mb-3">
 		<label for="password_old" class="form-label">Old Password</label>
-		<input type="text" class="form-control" id="username" name="password_old" placeholder="Old Password" required autocomplete="off">
+		<input type="password" class="form-control" id="username" name="password_old" placeholder="Old Password" required autocomplete="off">
 	</div>
 	<div class="mb-3">
 		<label for="password_new" class="form-label">New Password</label>
-		<input type="text" class="form-control" id="password_new" name="password_new" placeholder="New Password" required autocomplete="off" onkeyup="checkFormInput()">
-		<input type="text" class="form-control" id="password_confirm" name="password_confirm" placeholder="New Password (confirm)" required  autocomplete="off" onkeyup="checkFormInput()">
+		<input type="password" class="form-control" id="password_new" name="password_new" placeholder="New Password" required autocomplete="off" onkeyup="checkFormInput()">
+		<input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="New Password (confirm)" required  autocomplete="off" onkeyup="checkFormInput()">
 	</div>
 	<div class="mb-3">
 		<ul class="list-unstyled text-start">
@@ -79,6 +89,9 @@ if (isset($_POST['username'])) {
 	</div>
 </form>
 		
+<?php
+}
+?>
 
 <script>
 var validate_lower = document.getElementById("validate_lower");

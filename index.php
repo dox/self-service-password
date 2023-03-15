@@ -38,7 +38,7 @@ include_once("config/autoload.php");
 		if (isset($_GET['node'])) {
 			$node = "nodes/" . $_GET['node'] . ".php";
 		} else {
-			$node = "nodes/request_reset.php";
+			$node = "nodes/request_token.php";
 		}
 		include_once($node);
 		?>
