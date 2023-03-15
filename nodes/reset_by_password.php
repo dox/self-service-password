@@ -48,7 +48,7 @@ echo displayTitle("Reset your SEH Password");
 
 ?>
 
-<p><small id="inputPasswordCurrent" class="form-text text-muted ">If you don't know your current password, you can <a class="hidden" href="index.php?node=request_token">request a reset link here</a></small></p>
+<p><small id="inputPasswordCurrent" class="form-text text-muted ">If you don't know your current password, you can<br /><a class="hidden" href="index.php?node=request_token">request a reset link here</a></small></p>
 
 <form action="#" method="post">
 	<div class="mb-3">

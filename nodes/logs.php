@@ -96,11 +96,7 @@ var options = {
 		type: 'bar',
 		height: 300,
 		toolbar: {
-			tools: {
-				zoomout: false,
-				zoomin: false,
-				pan: false
-			}
+			show: false
 		}
 	},
 	dataLabels: {
