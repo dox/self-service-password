@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 <?php
 session_start();
 
@@ -12,6 +14,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 	// Create a new LDAP connection:
 	if ($ldap_connection->auth()->attempt($user['distinguishedname'][0], $cleanPassword)) {
 		$_SESSION['logged_in'] = true;
+		
+		logsRemoveOld();
 	} else {
 		$_SESSION['logged_in'] = false;
 		//printArray($ldap_connection2);
@@ -22,8 +26,17 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
 
 if ($_SESSION['logged_in'] == true) {
+	
+	$logsByDate = array();
+	foreach (logsGet() AS $log) {
+		$date = date('Y-m-d', strtotime($log['date_created']));
+		
+		$logsByDate[$date] = $logsByDate[$date] + 1;
+	}
 ?>
-<table class="table">
+<div id="chart-logs"></div>
+
+<table class="table table-sm">
   <thead>
 	<tr>
 	  <th scope="col">Date</th>
@@ -48,13 +61,12 @@ if ($_SESSION['logged_in'] == true) {
 
 <hr />
 
-<table class="table">
+<table class="table table-sm table-striped">
   <thead>
     <tr>
       <th scope="col">Date</th>
       <th scope="col">Type</th>
       <th scope="col">IP</th>
-      <th scope="col">Event</th>
     </tr>
   </thead>
   <tbody>
@@ -64,7 +76,9 @@ if ($_SESSION['logged_in'] == true) {
 		  echo "<th scope=\"row\">" . $log['date_created'] . "</th>";
 		  echo "<td>" . $log['type'] . "</td>";
 		  echo "<td>" . $log['ip'] . "</td>";
-		  echo "<td>" . $log['event'] . "</td>";
+		  echo "</tr>";
+		  echo "<tr>";
+		  echo "<td colspan=\"3\" class=\"text-truncate\">" . $log['event'] . "</td>";
 		  echo "</tr>";
 	  }
 	  ?>
@@ -72,7 +86,42 @@ if ($_SESSION['logged_in'] == true) {
 </table>
 
 
+<script>
+var options = {
+	series: [{
+		name: "Logs By Day",
+		data: [<?php echo implode(",", array_reverse($logsByDate)); ?>]
+	}],
+	chart: {
+		id: 'chart-logs',
+		type: 'bar',
+		height: 300,
+		toolbar: {
+			tools: {
+				zoomout: false,
+				zoomin: false,
+				pan: false
+			}
+		}
+	},
+	dataLabels: {
+		enabled: false
+	},
+	xaxis: {
+		categories: ['<?php echo implode("','", array_reverse(array_keys($logsByDate))); ?>']
+	},
+	yaxis: {
+	  labels: {
+		formatter: function (value) {
+		  return value.toFixed(0);
+		}
+	  },
+	},
+};
 
+var chartMonthly = new ApexCharts(document.querySelector("#chart-logs"), options);
+chartMonthly.render();
+</script>
 
 <?php
 } else {
@@ -91,7 +140,6 @@ if ($_SESSION['logged_in'] == true) {
 		<button class="btn btn-lg btn-primary w-100" id="password_submit" type="submit">Login</button>
 	</div>
 </form>
-		
 <?php
 }
 ?>

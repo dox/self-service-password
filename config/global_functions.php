@@ -13,15 +13,6 @@ function printArray($array) {
 	echo ("</pre>");
 }
 
-function escape($var) {
-	$var=stripslashes($var);
-	$var=htmlentities($var);
-	$var=strip_tags($var);
-	$var=str_replace("'", "\'", $var);
-
-	return $var;
-}
-
 function autoPluralise ($singular, $plural, $count = 1, $includeNum = false) {
 	// returns the correct plural of a word/count combo
 	// Usage:	$singular	= single version of the word (e.g. 'Dog')
@@ -63,13 +54,13 @@ function sendMail($subject = "No Subject Specified", $recipient = NULL, $body = 
 	}
 }
 
-function tokenCreate($email = null, $token = null) {
+function tokenCreate($email = null, $token = null, $user = null) {
 	global $db;
 	
 	$sql = "INSERT INTO tokens (ip, email, token) values ('" . $_SERVER['REMOTE_ADDR'] . "', '" . $email . "', '" . $token . "')";
 	$db->query($sql);
 	
-	logCreate("token_create", $email . " generated new token");
+	logCreate("token_create", $user . " generated new token for " . $email);
 	
 	return true;
 }
@@ -122,6 +113,28 @@ function tokenRemoveOldUsed() {
 	$removeFromDate = date('Y-m-d H:i:s', strtotime("6 months ago"));
 	
 	$sql = "DELETE FROM tokens WHERE date_used > '" . $removeFromDate . "'";
+	$db->query($sql);
+	
+	return true;
+}
+
+function tokenRemoveOldUnused() {
+	global $db;
+	
+	$removeFromDate = date('Y-m-d H:i:s', strtotime("7 days ago"));
+	
+	$sql = "DELETE FROM tokens WHERE date_used > '" . $removeFromDate . "'";
+	$db->query($sql);
+	
+	return true;
+}
+
+function logsRemoveOld() {
+	global $db;
+	
+	$removeFromDate = date('Y-m-d H:i:s', strtotime("12 months ago"));
+	
+	$sql = "DELETE FROM logs WHERE date_used > '" . $removeFromDate . "'";
 	$db->query($sql);
 	
 	return true;

@@ -8,9 +8,9 @@ if (isset($_POST['email'])) {
 	$user = LdapRecord\Models\ActiveDirectory\User::findBy('mail', $cleanEmail);
 	if (isset($user)) {
 		$token = bin2hex(random_bytes(18));
-		tokenCreate($cleanEmail, $token);
+		tokenCreate($cleanEmail, $token, $user['samaccountname'][0]);
 		
-		$link = "https://www.seh.ox.ac.uk/it/password/index.php?node=reset_token&token=" . $token;
+		$link = SITE_URL . "/index.php?node=reset_by_token&token=" . $token;
 		$body  = "<p>Please <a href=\"" . $link . "\">click here</a> to reset your SEH IT Password.</p>";
 		$body .= "<p>If you did not request this reset, please just delete this email.</p>";
 		

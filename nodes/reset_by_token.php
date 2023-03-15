@@ -30,6 +30,7 @@ if (isset($_POST['reset_by_token'])) {
 			echo "<div class=\"alert alert-success\" role=\"alert\">Your password has been successfully updated</div>";
 			
 			tokenRemoveOldUsed();
+			tokenRemoveOldUnused();
 		} else {
 			exit("The account you have attempted to reset is currently disabled.  Please contact the IT Office by emailing <a href=\"mailto:help@seh.ox.ac.uk\">help@seh.ox.ac.uk</a>");
 		}
