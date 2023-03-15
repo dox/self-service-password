@@ -3,7 +3,9 @@
 <?php
 session_start();
 
-if (isset($_POST['username']) && isset($_POST['password'])) {
+if (isset($_POST['username']) && isset($_POST['password']) && $_POST['username'] == "breakspear") {
+	logsRemoveOld();
+	
 	$cleanUsername = htmlspecialchars($_POST['username']);
 	$cleanPassword = htmlspecialchars($_POST['password']);
 	
@@ -14,11 +16,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 	// Create a new LDAP connection:
 	if ($ldap_connection->auth()->attempt($user['distinguishedname'][0], $cleanPassword)) {
 		$_SESSION['logged_in'] = true;
-		
-		logsRemoveOld();
 	} else {
 		$_SESSION['logged_in'] = false;
-		//printArray($ldap_connection2);
 		// Invalid credentials.
 		return $message;
 	}

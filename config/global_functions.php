@@ -110,9 +110,9 @@ function tokenUse($token = null) {
 function tokenRemoveOldUsed() {
 	global $db;
 	
-	$removeFromDate = date('Y-m-d H:i:s', strtotime("6 months ago"));
+	$removeFromDate = date('Y-m-d H:i:s', strtotime("3 months ago"));
 	
-	$sql = "DELETE FROM tokens WHERE date_used > '" . $removeFromDate . "'";
+	$sql = "DELETE FROM tokens WHERE date_used < '" . $removeFromDate . "'";
 	$db->query($sql);
 	
 	return true;
@@ -121,9 +121,9 @@ function tokenRemoveOldUsed() {
 function tokenRemoveOldUnused() {
 	global $db;
 	
-	$removeFromDate = date('Y-m-d H:i:s', strtotime("7 days ago"));
+	$removeFromDate = date('Y-m-d H:i:s', strtotime("2 days ago"));
 	
-	$sql = "DELETE FROM tokens WHERE date_used > '" . $removeFromDate . "'";
+	$sql = "DELETE FROM tokens WHERE date_used IS NULL AND date_created < '" . $removeFromDate . "'";
 	$db->query($sql);
 	
 	return true;
@@ -134,7 +134,7 @@ function logsRemoveOld() {
 	
 	$removeFromDate = date('Y-m-d H:i:s', strtotime("12 months ago"));
 	
-	$sql = "DELETE FROM logs WHERE date_used > '" . $removeFromDate . "'";
+	$sql = "DELETE FROM logs WHERE date_created < '" . $removeFromDate . "'";
 	$db->query($sql);
 	
 	return true;
