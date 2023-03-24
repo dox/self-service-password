@@ -25,8 +25,8 @@ if (isset($_POST['username']) && isset($_POST['password']) && $_POST['username']
 
 
 if ($_SESSION['logged_in'] == true) {
+	$logsByDate = createDateRangeArray(date('Y-m-d', strtotime('14 days ago')), date('Y-m-d'));
 	
-	$logsByDate = array();
 	foreach (logsGet() AS $log) {
 		$date = date('Y-m-d', strtotime($log['date_created']));
 		
