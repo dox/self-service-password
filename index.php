@@ -31,7 +31,7 @@ include_once("config/autoload.php");
 	<link href="css/password.css" rel="stylesheet">
 </head>
 <body class="text-center">
-	<main class="site-content">
+	<main class="form-signin w-100 m-auto">
 		<h1><a href="<?php echo SITE_URL; ?>"><img class="mb-4" src="img/crest.png" alt="" width="80px" ></a></h1>
 		<?php
 		if (isset($_GET['node'])) {

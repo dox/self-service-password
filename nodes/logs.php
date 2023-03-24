@@ -1,5 +1,6 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
+
 <?php
 session_start();
 
@@ -38,20 +39,30 @@ if ($_SESSION['logged_in'] == true) {
 <table class="table table-sm">
   <thead>
 	<tr>
-	  <th scope="col">Date</th>
+	  <th scope="col">Created</th>
+	  <th scope="col">Used</th>
+	  <th scope="col">Token</th>
 	  <th scope="col">IP</th>
 	  <th scope="col">Email</th>
-	  <th scope="col">Token</th>
 	</tr>
   </thead>
   <tbody>
 	  <?php
-	  foreach (tokensGet(true) AS $token) {
+	  foreach (tokensGet() AS $token) {
 		  echo "<tr>";
+		  
 		  echo "<th scope=\"row\">" . $token['date_created'] . "</th>";
+		  echo "<th scope=\"row\">" . $token['date_used'] . "</th>";
+
+		  if (!empty($token['date_used'])) {
+			  echo "<td><span class=\"badge rounded-pill text-bg-secondary\">" . "...." . substr($token['token'], -5) . "</span></td>";
+		  } else {
+			  echo "<td><span class=\"badge rounded-pill text-bg-success\">" . "...." . substr($token['token'], -5) . "</span></td>";
+		  }
+		  
 		  echo "<td>" . $token['ip'] . "</td>";
 		  echo "<td>" . $token['email'] . "</td>";
-		  echo "<td>" . "...." . substr($token['token'], -5) . "</td>";
+		  
 		  echo "</tr>";
 	  }
 	  ?>
