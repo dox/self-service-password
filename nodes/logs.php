@@ -1,3 +1,9 @@
+<style>
+.form-signin {
+  max-width: 100%;
+}
+</style>
+
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 
@@ -78,7 +84,8 @@ if ($_SESSION['logged_in'] == true) {
     <tr>
       <th scope="col">Date</th>
       <th scope="col">Type</th>
-      <th scope="col">IP</th>
+	  <th scope="col">IP</th>
+	  <th scope="col">Description</th>
     </tr>
   </thead>
   <tbody>
@@ -88,8 +95,6 @@ if ($_SESSION['logged_in'] == true) {
 		  echo "<th scope=\"row\">" . $log['date_created'] . "</th>";
 		  echo "<td>" . $log['type'] . "</td>";
 		  echo "<td>" . $log['ip'] . "</td>";
-		  echo "</tr>";
-		  echo "<tr>";
 		  echo "<td colspan=\"3\" class=\"text-truncate\">" . $log['event'] . "</td>";
 		  echo "</tr>";
 	  }

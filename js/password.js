@@ -94,7 +94,7 @@ function hasNumber(str) {
 
 function hasLength(str) {
 	var length = str.length;
-	var minLength = 4;
+	var minLength = 5;
 	
 	if (length >= minLength) {
 		return true;
