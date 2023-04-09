@@ -6,6 +6,8 @@ session_start();
 
 if (isset($_POST['username']) && isset($_POST['password']) && $_POST['username'] == "breakspear") {
 	logsRemoveOld();
+	tokenRemoveOldUsed();
+	tokenRemoveOldUnused();
 	
 	$cleanUsername = htmlspecialchars($_POST['username']);
 	$cleanPassword = htmlspecialchars($_POST['password']);

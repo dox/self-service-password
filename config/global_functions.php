@@ -110,7 +110,7 @@ function tokenUse($token = null) {
 function tokenRemoveOldUsed() {
 	global $db;
 	
-	$removeFromDate = date('Y-m-d H:i:s', strtotime("3 months ago"));
+	$removeFromDate = date('Y-m-d H:i:s', strtotime("7 days ago"));
 	
 	$sql = "DELETE FROM tokens WHERE date_used < '" . $removeFromDate . "'";
 	$db->query($sql);
