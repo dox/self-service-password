@@ -180,4 +180,17 @@ function createDateRangeArray($strDateFrom,$strDateTo) {
 	
 	return $aryRange;
 }
+
+function totalReset($days = 30) {
+	global $db;
+	
+	$date = date('Y-m-d H:i:s', strtotime($days . " days ago"));
+	
+	$sql  = "SELECT count(*) AS total FROM logs ";
+	$sql .= "WHERE type = 'token_use' OR type = 'password_reset' ";
+	$sql .= "AND date_created > '" . $date . "'";
+	$array = $db->query($sql)->fetchArray();
+	
+	return $array['total'];
+}
 ?>

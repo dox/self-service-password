@@ -41,6 +41,9 @@ if ($_SESSION['logged_in'] == true) {
 		
 		$logsByDate[$date] = $logsByDate[$date] + 1;
 	}
+	
+	$days = "30";
+	echo "<p>" . totalReset($days) . " passwords reset in the last " . $days . " days</p>";
 ?>
 <div id="chart-logs"></div>
 
