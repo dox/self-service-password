@@ -158,37 +158,29 @@ function logsGet() {
 	return $array;
 }
 
-function createDateRangeArray($strDateFrom,$strDateTo) {
-	// takes two dates formatted as YYYY-MM-DD and creates an
-	// inclusive array of the dates between the from and to dates.
+function createDateRangeArray($startDate, $endDate) {
+	$dates = array();
+	$current = strtotime($startDate);
+	$date2 = strtotime($endDate);
+	$stepVal = '+1 day';
 	
-	$aryRange = [];
-	
-	$iDateFrom = mktime(1, 0, 0, substr($strDateFrom, 5, 2), substr($strDateFrom, 8, 2), substr($strDateFrom, 0, 4));
-	$iDateTo = mktime(1, 0, 0, substr($strDateTo, 5, 2), substr($strDateTo, 8, 2), substr($strDateTo, 0, 4));
-	
-	if ($iDateTo >= $iDateFrom) {
-		$aryRange[date('Y-m-d', $iDateFrom)] = 0;
-		
-		while ($iDateFrom<$iDateTo) {
-			$iDateFrom += 86400; // add 24 hours
-			$aryRange[date('Y-m-d', $iDateFrom)] = 0;
-		}
+	while($current <= $date2 ) {
+		$dates[date('Y-m-d', $current)] = 0;
+		$current = strtotime($stepVal, $current);
 	}
 	
-	$aryRange = array_reverse($aryRange);
-	
-	return $aryRange;
+	return $dates;
 }
 
 function totalReset($days = 30) {
 	global $db;
 	
-	$date = date('Y-m-d H:i:s', strtotime($days . " days ago"));
+	$date = date('Y-m-d', strtotime($days . " days ago"));
 	
 	$sql  = "SELECT count(*) AS total FROM logs ";
-	$sql .= "WHERE type = 'token_use' OR type = 'password_reset' ";
-	$sql .= "AND date_created > '" . $date . "'";
+	$sql .= "WHERE (type = 'token_use' OR type = 'password_reset') ";
+	$sql .= "AND DATE(date_created) > '" . $date . "'";
+	
 	$array = $db->query($sql)->fetchArray();
 	
 	return $array['total'];

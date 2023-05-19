@@ -11,6 +11,10 @@ if (isset($_POST['reset_by_token'])) {
 	$cleanPasswordNew = htmlspecialchars($_POST['password_new']);
 	
 	$user = LdapRecord\Models\ActiveDirectory\User::findBy('samaccountname', $cleanUsername);
+	
+	if (empty($user)) {
+		exit("The username you entered doesn't exist.  If you're a student, this should be the first part of your SSO, if you are a Fellow/staff member, this may be your surname.");
+	}
 	$attributes = $user->getAttributes();
 
 	$ldapMail = $attributes['mail'][0];
