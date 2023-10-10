@@ -110,7 +110,7 @@ include_once("config/autoload.php");
 	</style>
 
 </head>
-<body class="text-center">
+<body class="text-center bg-body-tertiary">
 	<main class="form-signin w-100 m-auto">
 		<h1><a href="<?php echo SITE_URL; ?>"><img class="mb-4" src="img/crest.png" alt="" width="80px" ></a></h1>
 		<?php
