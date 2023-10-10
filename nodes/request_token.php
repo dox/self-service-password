@@ -27,7 +27,7 @@ if (isset($_POST['email'])) {
 
 <form method="post" id="request_email" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 	<label for="login" class="visually-hidden">Oxford Email Address</label>
-	<input type="email" id="email" name="email" class="form-control" placeholder="firstname.lastname@seh.ox.ac.uk" value="<?php echo htmlentities($login) ?>" required autofocus autocomplete="off">
+	<input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="firstname.lastname@seh.ox.ac.uk" value="<?php echo htmlentities($login) ?>" required autofocus autocomplete="off">
 	<div class="form-text">Please enter your full Oxford email address (not your SSO)</div>
 	<br />
 	
