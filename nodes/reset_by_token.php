@@ -70,24 +70,25 @@ if (isset($_POST['reset_by_token'])) {
 	</div>
 	<div class="mb-3">
 		<label for="password_new" class="form-label">New Password</label>
-		<input type="password" class="form-control" id="password_new" name="password_new" placeholder="New Password" required autocomplete="off" onkeyup="checkFormInput()">
-		<input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="New Password (confirm)" required onkeyup="checkFormInput()">
+		<input type="password" class="form-control" id="password_new" name="password_new" placeholder="New Password" required autocomplete="off">
+		<input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="New Password (confirm)" required>
+		<input type="hidden" id="password_old">
 	</div>
 	<div class="mb-3">
 		<ul class="list-unstyled text-start">
-			<li id="validate_lower" class="invalid">
+			<li id="validate_lower" class="text-danger">
 				<svg width="1em" height="1em"><use xlink:href="img/icons.svg#x-circle" id="validate_lower_icon"/></svg> lowercase letter
 			</li>
-			<li id="validate_upper" class="invalid">
+			<li id="validate_upper" class="text-danger">
 				<svg width="1em" height="1em"><use xlink:href="img/icons.svg#x-circle" id="validate_upper_icon"/></svg> UPPERCASE letter
 			</li>
-			<li id="validate_number" class="invalid">
+			<li id="validate_number" class="text-danger">
 				<svg width="1em" height="1em"><use xlink:href="img/icons.svg#x-circle" id="validate_number_icon"/></svg> number
 			</li>
-			<li id="validate_length" class="invalid">
+			<li id="validate_length" class="text-danger">
 				<svg width="1em" height="1em"><use xlink:href="img/icons.svg#x-circle" id="validate_length_icon"/></svg> <?php echo PASSWORD_MINIMUM_LENGTH; ?> characters minimum
 			</li>
-			<li id="validate_match" class="invalid">
+			<li id="validate_match" class="text-danger">
 				<svg width="1em" height="1em"><use xlink:href="img/icons.svg#check-circle" id="validate_match_icon"/></svg> passwords match
 			</li>
 		</ul>
