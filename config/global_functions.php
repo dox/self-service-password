@@ -37,6 +37,8 @@ function sendMail($subject = "No Subject Specified", $recipient = NULL, $body = 
 		//Server settings
 		$mail->isSMTP();
 		$mail->Host       = SMTP_SERVER;
+		$mail->Port       = SMTP_SERVER_PORT;
+		
 		
 		//Recipients
 		$mail->setFrom(SMTP_SENDER_ADDRESS, 'St Edmund Hall');
@@ -49,8 +51,12 @@ function sendMail($subject = "No Subject Specified", $recipient = NULL, $body = 
 		$mail->Body    = $body;
 		
 		$mail->send();
+		logCreate("mail_success", "Email sent to " . $recipient);
 	} catch (Exception $e) {
-		echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+		echo "<p><strong>Message could not be sent. Please contact the IT Office at <a href=\"mailto:help@seh.ox.ac.uk\">help@seh.ox.ac.uk</a>.</strong></p>";
+		echo "<hr /><p>Mailer Error: {$mail->ErrorInfo}</p>";
+		
+		logCreate("mail_error", $mail->ErrorInfo);
 	}
 }
 

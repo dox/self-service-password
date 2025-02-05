@@ -10,7 +10,7 @@
 <?php
 session_start();
 
-if (isset($_POST['username']) && isset($_POST['password']) && $_POST['username'] == "breakspear") {
+if (isset($_POST['username']) && isset($_POST['password']) && ($_POST['username'] == "breakspear" || $_POST['username'] == "trehearne")) {
 	logsRemoveOld();
 	tokenRemoveOldUsed();
 	tokenRemoveOldUnused();
@@ -108,12 +108,12 @@ if ($_SESSION['logged_in'] == true) {
 
 <table class="table table-sm table-striped">
   <thead>
-    <tr>
-      <th scope="col">Date</th>
-      <th scope="col">Type</th>
+	<tr>
+	  <th scope="col">Date</th>
+	  <th scope="col">Type</th>
 	  <th scope="col">IP</th>
 	  <th scope="col">Description</th>
-    </tr>
+	</tr>
   </thead>
   <tbody>
 	  <?php
